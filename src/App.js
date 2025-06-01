@@ -90,28 +90,32 @@ function App() {
   }, [filters, internships, searchQuery]);
 
   return (
-    <div className="p-4">
-      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+    <div className="h-screen flex flex-col">
+      {/* Fixed top search and filters bar */}
+      <div className="p-4 bg-white shadow z-10">
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-      {/* Mobile: Filter toggle button */}
-      <div className="flex justify-between items-center mt-4 sm:hidden">
-        <button
-          onClick={() => setShowFilters(true)}
-          className="flex items-center px-3 py-2 border rounded text-gray-700 border-gray-400"
-        >
-          <Menu className="mr-2" size={18} />
-          Filters
-        </button>
+        {/* Mobile: Filter toggle button */}
+        <div className="flex justify-between items-center mt-4 sm:hidden">
+          <button
+            onClick={() => setShowFilters(true)}
+            className="flex items-center px-3 py-2 border rounded text-gray-700 border-gray-400"
+          >
+            <Menu className="mr-2" size={18} />
+            Filters
+          </button>
+        </div>
       </div>
 
-      <div className="mt-4 flex flex-col sm:flex-row">
-        {/* Sidebar filters on larger screens */}
-        <div className="hidden sm:block sm:w-1/4">
+      {/* Main content area, scrollable */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar filters on larger screens, fixed on the left */}
+        <div className="hidden sm:block sm:w-1/4 bg-white p-4 border-r overflow-y-auto">
           <Filters filters={filters} setFilters={setFilters} />
         </div>
 
-        {/* Internship list */}
-        <div className="w-full sm:w-3/4">
+        {/* Internship list area, scrollable */}
+        <div className="w-full sm:w-3/4 overflow-y-auto p-4">
           <InternshipList internships={filtered} />
         </div>
       </div>
@@ -129,7 +133,6 @@ function App() {
                 ✕
               </button>
             </div>
-            {/* The Filters component will update immediately on change */}
             <Filters filters={filters} setFilters={setFilters} />
           </div>
         </div>

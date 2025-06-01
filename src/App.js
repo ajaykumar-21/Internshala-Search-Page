@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { Menu } from "lucide-react";
 import SearchBar from "./components/SearchBar";
 import Filters from "./components/Filters";
 import InternshipList from "./components/InternshipList";
@@ -12,6 +13,7 @@ function App() {
     location: "",
     duration: "",
   });
+  const [showFilters, setShowFilters] = useState(false);
 
   // console.log(filters);
 
@@ -66,10 +68,48 @@ function App() {
   return (
     <div className="p-4">
       <SearchBar />
-      <div className="flex mt-4">
-        <Filters filters={filters} setFilters={setFilters} />
-        <InternshipList internships={filtered} />
+
+      {/* Mobile: Filter toggle button */}
+      <div className="flex justify-between items-center mt-4 sm:hidden">
+        <button
+          onClick={() => setShowFilters(true)}
+          className="flex items-center px-3 py-2 border rounded text-gray-700 border-gray-400"
+        >
+          <Menu className="mr-2" size={18} />
+          Filters
+        </button>
       </div>
+
+      <div className="mt-4 flex flex-col sm:flex-row">
+        {/* Sidebar filters on larger screens */}
+        <div className="hidden sm:block sm:w-1/4">
+          <Filters filters={filters} setFilters={setFilters} />
+        </div>
+
+        {/* Internship list */}
+        <div className="w-full sm:w-3/4">
+          <InternshipList internships={filtered} />
+        </div>
+      </div>
+
+      {/* Mobile filter modal */}
+      {showFilters && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+          <div className="bg-white w-11/12 max-w-sm p-4 rounded shadow-lg overflow-y-auto max-h-full">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Filters</h2>
+              <button
+                onClick={() => setShowFilters(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+            {/* The Filters component will update immediately on change */}
+            <Filters filters={filters} setFilters={setFilters} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

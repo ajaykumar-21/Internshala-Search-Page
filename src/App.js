@@ -13,15 +13,17 @@ function App() {
     location: "",
     duration: "",
   });
-  const [showFilters, setShowFilters] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false); // State to toggle showing the filter modal (for mobile)
+  const [searchQuery, setSearchQuery] = useState(""); // State to track the search input query
 
   // console.log(filters);
 
+  // Fetch internships data from the API once when component mounts
   useEffect(() => {
     fetch("https://internshala.com/hiring/search")
       .then((res) => res.json())
       .then((data) => {
+        // Convert the fetched object structure into an array of internships
         const internshipsArray = data.internship_ids.map(
           (id) => data.internships_meta[id]
         );
@@ -32,9 +34,13 @@ function App() {
   }, []);
 
   console.log(internships);
+
+  // Main filtering logic runs whenever filters, internships, or searchQuery change
   useEffect(() => {
+    // Start with the full internships list
     let updated = internships;
 
+    // Apply profile filter if set
     if (filters.profile) {
       updated = updated.filter(
         (item) =>
@@ -45,6 +51,7 @@ function App() {
       );
     }
 
+    // Apply location filter if set
     if (filters.location) {
       updated = updated.filter(
         (item) =>
@@ -55,6 +62,7 @@ function App() {
       );
     }
 
+    // Apply duration filter if set
     if (filters.duration) {
       updated = updated.filter(
         (item) =>
@@ -63,6 +71,7 @@ function App() {
       );
     }
 
+    // Apply search query if set (searching both profile and location fields)
     if (searchQuery) {
       updated = updated.filter(
         (item) =>

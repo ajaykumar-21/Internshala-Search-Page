@@ -21,6 +21,7 @@ function Filters({ filters, setFilters }) {
           <label className="block mb-1">Profile</label>
           <input
             name="profile"
+            placeholder="e.g. Marketing"
             value={filters.profile}
             onChange={handleChange}
             className="w-full p-2 border rounded"
@@ -31,6 +32,7 @@ function Filters({ filters, setFilters }) {
           <label className="block mb-1">Location</label>
           <input
             name="location"
+            placeholder="e.g. Delhi"
             value={filters.location}
             onChange={handleChange}
             className="w-full p-2 border rounded"
@@ -41,6 +43,7 @@ function Filters({ filters, setFilters }) {
           <label className="block mb-1">Duration</label>
           <input
             name="duration"
+            placeholder="e.g. 1,2.."
             value={filters.duration}
             onChange={handleChange}
             className="w-full p-2 border rounded"

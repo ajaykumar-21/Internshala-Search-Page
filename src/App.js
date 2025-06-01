@@ -14,6 +14,7 @@ function App() {
     duration: "",
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // console.log(filters);
 
@@ -62,12 +63,26 @@ function App() {
       );
     }
 
+    if (searchQuery) {
+      updated = updated.filter(
+        (item) =>
+          (item.profile_name &&
+            item.profile_name
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())) ||
+          (item.location_names &&
+            item.location_names.some((loc) =>
+              loc.toLowerCase().includes(searchQuery.toLowerCase())
+            ))
+      );
+    }
+
     setFiltered(updated);
-  }, [filters, internships]);
+  }, [filters, internships, searchQuery]);
 
   return (
     <div className="p-4">
-      <SearchBar />
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
       {/* Mobile: Filter toggle button */}
       <div className="flex justify-between items-center mt-4 sm:hidden">
